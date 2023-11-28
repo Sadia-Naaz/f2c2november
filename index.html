@@ -25,14 +25,21 @@
             <img src="./assets/hero.png"/>
             <h1>Search For Recipes</h1>
             <div class="search-container">
-            <input type="text" id="search-bar" placeholder="Search For Recipes" class="hero-input" ><button  id = "searchBtn"><img src="./assets/Search-btn.png" alt=""></button>
+            <input type="text" id="search-bar" placeholder="Search For Recipes....." class="hero-input"><button  id = "searchBtn"><img src="./assets/Search-btn.png" alt="search"></button>
             </div><!--hero-content -->
-<div id="recipe-list"></div>
+
 <div id="toggle-buttons">
-    <button id ="btn"class="btn1 show-all" >All Recipes   ></button>
-    <button id ="btn"class="btn2 show-veg" >Veg Recipes Only   ></button>
-    <button id ="btn"class="btn3  show-non-veg" >Non Veg Recipes Only  ></button>
+    <button id ="show-all" >All Recipes</button>
+    <button id ="show-veg" >Veg Recipes Only</button>
+    <button id ="show-non-veg" >Non Veg Recipes Only</button>
 </div>
+<div>
+    <label for="RatingAbove">4 and Above</label>
+    <input type="radio" id="RatingAbove" name="ratingfilter">
+    <label for="RatingBelow">4 and Below</label>
+    <input type="radio" id="RatingBelow" name="ratingfilter">
+</div>
+<div id="recipe-list"></div>
 <footer>
     <div class="footer-content">
     <img src="./assets/Cookpal 1.png" alt="logo" height="80vh" width="80vw">

@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded',function(){
+
 const recipes=[
     {
         "name": "Veggie Delight",
@@ -120,38 +122,60 @@ const recipes=[
         "rating": 4.9
     }
 ]
+let recipeContainer = document.getElementById("recipe-list");
+function displayRecipes(RecipesToDisplay){
+recipeContainer.innerHTML = "";
+RecipesToDisplay.forEach(recipe=>{
+    const card = document.createElement("div");
+    card.className="recipeCard";
+    card.innerHTML = `
+    <img Src = "${recipe.imageSrc}" width=200px>
+    <h3>${recipe.name}</h3>
+    <p>${recipe.type}</p>
+    <p>${recipe.rating}</p>
+    <p>${recipe.time}</p>
+    
+    `
+    recipeContainer.appendChild(card);
+});
+}
+displayRecipes(recipes);
 
-function createRecipeCard(recipe) {
-    const card = document.createElement('div');
-    card.classList.add('recipe-card');
-    card.id = "card";
-    const image = document.createElement('img');
-    image.src = recipe.imageUrl;
-    image.alt = recipe.name;
-    image.classList.add('recipe-image');
-    card.appendChild(image);
+ // making search functionality
+let searchBar = document.getElementById("search-bar");
+let filteredRecipes = [...recipes];
+document.getElementById("show-all").addEventListener("click",()=>filteredRecipesfn());
+document.getElementById("show-veg").addEventListener("click",()=>filteredRecipesfn('veg'));
+document.getElementById("show-non-veg").addEventListener("click",()=>filteredRecipesfn('non-veg'));
+searchBar.addEventListener('input',(event)=>{
+    let searchText = event.target.value.toLowerCase();
+    filteredRecipes = recipes.filter((recipe)=>recipe.name.toLowerCase().includes(searchText));
+    displayRecipes(filteredRecipes);
+});
 
-    const details = document.createElement('div');
-    details.innerHTML = `
-      <h3>${recipe.name}</h3>
-      <p>Type: ${recipe.type}</p>
-      <p>Time: ${recipe.time}</p>
-      <p>Rating: ${recipe.rating}</p>
-      <button class="like-button" onclick="handleLike(${recipe.id})">Like ❤️</button>
+function filteredRecipesfn(type="all"){
+if(type=="all"){
+    displayRecipes(recipes);
+}
+else{
+    filteredRecipes=recipes.filter((recipe)=>recipe.type==type);
+    displayRecipes(filteredRecipes);
+}
+}
+document.querySelectorAll('input[name="ratingfilter"]').forEach(radio=>{
+    radio.addEventListener('change',filterByRating);
 
-    `;
-    card.appendChild(details);
+ function filterByRating(){
+    let ratingAbove =document.getElementById("RatingAbove").checked;
+    let ratingBelow=document.getElementById("RatingBelow").checked;
+    filteredRecipes = recipes.filter((recipe)=>{
+        if(ratingAbove && recipe.rating >4.0 )return true;
+        if (ratingBelow && recipe.rating<4.0)return true;
+         return false;
+       });
+   displayRecipes(filteredRecipes);
+    }
 
-    document.getElementById('recipe-list').appendChild(card);
-  }
+});
 
-  function handleLike(recipeId) {
-    const likedRecipe = recipes.find(recipe => recipe.id === recipeId);
-    console.log(`Liked recipe: ${likedRecipe.name}`);
-    const likeButton =document.getElementsByClassName("like-button");
-    likeButton.innerText="liked";
-  }
-
-  recipes.forEach(recipe => {
-    createRecipeCard(recipe);
-  });
+});
